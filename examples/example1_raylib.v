@@ -30,7 +30,7 @@ const (
 	samples           = 4096
 )
 
-[heap]
+@[heap]
 pub struct App {
 pub mut:
 	tiny_sound_font &tsf.Tsf

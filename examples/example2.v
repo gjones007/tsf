@@ -4,7 +4,7 @@ import sdl
 import tsf
 import os
 
-[heap]
+@[heap]
 struct App {
 mut:
 	tiny_sound_font &tsf.Tsf

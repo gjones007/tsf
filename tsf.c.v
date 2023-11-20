@@ -191,55 +191,55 @@ pub enum TSFOutputMode {
 }
 
 fn C.tsf_load_filename(filename &i8) &C.Tsf
-[inline]
+@[inline]
 pub fn Tsf.load_filename(filename string) &Tsf {
 	return C.tsf_load_filename(filename.str)
 }
 
 fn C.tsf_load_memory(buffer voidptr, size int) &C.Tsf
-[inline]
+@[inline]
 pub fn Tsf.load_memory(buffer voidptr, size int) &Tsf {
 	return C.tsf_load_memory(buffer, size)
 }
 
 fn C.tsf_load(stream &Tsf_stream) &C.Tsf
-[inline]
+@[inline]
 pub fn (mut f Tsf) load(stream &Tsf_stream) &Tsf {
 	return C.tsf_load(stream)
 }
 
 fn C.tsf_copy(f &Tsf) &C.Tsf
-[inline]
+@[inline]
 pub fn (mut f Tsf) copy() &Tsf {
 	return C.tsf_copy(f)
 }
 
 fn C.tsf_close(f &Tsf)
-[inline]
+@[inline]
 pub fn (mut f Tsf) close() {
 	C.tsf_close(f)
 }
 
 fn C.tsf_reset(f &Tsf)
-[inline]
+@[inline]
 pub fn (mut f Tsf) reset() {
 	C.tsf_reset(f)
 }
 
 fn C.tsf_get_presetindex(f &Tsf, bank int, preset_number int) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) get_presetindex(bank int, preset_number int) int {
 	return C.tsf_get_presetindex(f, bank, preset_number)
 }
 
 fn C.tsf_get_presetcount(f &Tsf) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) get_presetcount() int {
 	return C.tsf_get_presetcount(f)
 }
 
 fn C.tsf_get_presetname(f &Tsf, preset_index int) &char
-[inline]
+@[inline]
 pub fn (mut f Tsf) get_presetname(preset_index int) string {
 	unsafe {
 		return cstring_to_vstring(C.tsf_get_presetname(f, preset_index))
@@ -247,7 +247,7 @@ pub fn (mut f Tsf) get_presetname(preset_index int) string {
 }
 
 fn C.tsf_bank_get_presetname(f &Tsf, bank int, preset_number int) &char
-[inline]
+@[inline]
 pub fn (mut f Tsf) bank_get_presetname(bank int, preset_number int) string {
 	unsafe {
 		return cstring_to_vstring(C.tsf_bank_get_presetname(f, bank, preset_number))
@@ -255,199 +255,199 @@ pub fn (mut f Tsf) bank_get_presetname(bank int, preset_number int) string {
 }
 
 fn C.tsf_set_output(f &Tsf, outputmode TSFOutputMode, samplerate int, global_gain_db f32)
-[inline]
+@[inline]
 pub fn (mut f Tsf) set_output(outputmode TSFOutputMode, samplerate int, global_gain_db f32) {
 	C.tsf_set_output(f, outputmode, samplerate, global_gain_db)
 }
 
 fn C.tsf_set_volume(f &Tsf, global_gain f32)
-[inline]
+@[inline]
 pub fn (mut f Tsf) set_volume(global_gain f32) {
 	C.tsf_set_volume(f, global_gain)
 }
 
 fn C.tsf_set_max_voices(f &Tsf, max_voices int) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) set_max_voices(max_voices int) int {
 	return C.tsf_set_max_voices(f, max_voices)
 }
 
 fn C.tsf_note_on(f &Tsf, preset_index int, key int, vel f32) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) note_on(preset_index int, key int, vel f32) int {
 	return C.tsf_note_on(f, preset_index, key, vel)
 }
 
 fn C.tsf_bank_note_on(f &Tsf, bank int, preset_number int, key int, vel f32) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) bank_note_on(bank int, preset_number int, key int, vel f32) int {
 	return C.tsf_bank_note_on(f, bank, preset_number, key, vel)
 }
 
 fn C.tsf_note_off(f &Tsf, preset_index int, key int)
-[inline]
+@[inline]
 pub fn (mut f Tsf) note_off(preset_index int, key int) {
 	C.tsf_note_off(f, preset_index, key)
 }
 
 fn C.tsf_bank_note_off(f &Tsf, bank int, preset_number int, key int) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) bank_note_off(bank int, preset_number int, key int) int {
 	return C.tsf_bank_note_off(f, bank, preset_number, key)
 }
 
 fn C.tsf_note_off_all(f &Tsf)
-[inline]
+@[inline]
 pub fn (mut f Tsf) note_off_all() {
 	C.tsf_note_off_all(f)
 }
 
 fn C.tsf_active_voice_count(f &Tsf) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) active_voice_count() int {
 	return C.tsf_active_voice_count(f)
 }
 
 fn C.tsf_render_short(f &Tsf, buffer &i16, samples int, flag_mixing bool)
-[inline]
+@[inline]
 pub fn (mut f Tsf) render_short(buffer &i16, samples int, flag_mixing bool) {
 	C.tsf_render_short(f, buffer, samples, flag_mixing)
 }
 
 fn C.tsf_render_float(f &Tsf, buffer &f32, samples int, flag_mixing bool)
-[inline]
+@[inline]
 pub fn (mut f Tsf) render_float(buffer &f32, samples int, flag_mixing bool) {
 	C.tsf_render_float(f, buffer, samples, flag_mixing)
 }
 
 fn C.tsf_channel_set_presetindex(f &Tsf, channel int, preset_index int) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_set_presetindex(channel int, preset_index int) int {
 	return C.tsf_channel_set_presetindex(f, channel, preset_index)
 }
 
 fn C.tsf_channel_set_presetnumber(f &Tsf, channel int, preset_number int, flag_mididrums bool) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_set_presetnumber(channel int, preset_number int, flag_mididrums bool) int {
 	return C.tsf_channel_set_presetnumber(f, channel, preset_number, flag_mididrums)
 }
 
 fn C.tsf_channel_set_bank(f &Tsf, channel int, bank int) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_set_bank(channel int, bank int) int {
 	return C.tsf_channel_set_bank(f, channel, bank)
 }
 
 fn C.tsf_channel_set_bank_preset(f &Tsf, channel int, bank int, preset_number int) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_set_bank_preset(channel int, bank int, preset_number int) int {
 	return C.tsf_channel_set_bank_preset(f, channel, bank, preset_number)
 }
 
 fn C.tsf_channel_set_pan(f &Tsf, channel int, pan f32) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_set_pan(channel int, pan f32) int {
 	return C.tsf_channel_set_pan(f, channel, pan)
 }
 
 fn C.tsf_channel_set_volume(f &Tsf, channel int, volume f32) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_set_volume(channel int, volume f32) int {
 	return C.tsf_channel_set_volume(f, channel, volume)
 }
 
 fn C.tsf_channel_set_pitchwheel(f &Tsf, channel int, pitch_wheel int) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_set_pitchwheel(channel int, pitch_wheel int) int {
 	return C.tsf_channel_set_pitchwheel(f, channel, pitch_wheel)
 }
 
 fn C.tsf_channel_set_pitchrange(f &Tsf, channel int, pitch_range f32) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_set_pitchrange(channel int, pitch_range f32) int {
 	return C.tsf_channel_set_pitchrange(f, channel, pitch_range)
 }
 
 fn C.tsf_channel_set_tuning(f &Tsf, channel int, tuning f32) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_set_tuning(channel int, tuning f32) int {
 	return C.tsf_channel_set_tuning(f, channel, tuning)
 }
 
 fn C.tsf_channel_note_on(f &Tsf, channel int, key int, vel f32) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_note_on(channel int, key int, vel f32) int {
 	return C.tsf_channel_note_on(f, channel, key, vel)
 }
 
 fn C.tsf_channel_note_off(f &Tsf, channel int, key int)
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_note_off(channel int, key int) {
 	C.tsf_channel_note_off(f, channel, key)
 }
 
 fn C.tsf_channel_note_off_all(f &Tsf, channel int)
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_note_off_all(channel int) {
 	C.tsf_channel_note_off_all(f, channel)
 }
 
 fn C.tsf_channel_sounds_off_all(f &Tsf, channel int)
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_sounds_off_all(channel int) {
 	C.tsf_channel_sounds_off_all(f, channel)
 }
 
 fn C.tsf_channel_midi_control(f &Tsf, channel int, controller int, control_value int) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_midi_control(channel int, controller int, control_value int) int {
 	return C.tsf_channel_midi_control(f, channel, controller, control_value)
 }
 
 fn C.tsf_channel_get_preset_index(f &Tsf, channel int) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_get_preset_index(channel int) int {
 	return C.tsf_channel_get_preset_index(f, channel)
 }
 
 fn C.tsf_channel_get_preset_bank(f &Tsf, channel int) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_get_preset_bank(channel int) int {
 	return C.tsf_channel_get_preset_bank(f, channel)
 }
 
 fn C.tsf_channel_get_preset_number(f &Tsf, channel int) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_get_preset_number(channel int) int {
 	return C.tsf_channel_get_preset_number(f, channel)
 }
 
 fn C.tsf_channel_get_pan(f &Tsf, channel int) f32
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_get_pan(channel int) f32 {
 	return C.tsf_channel_get_pan(f, channel)
 }
 
 fn C.tsf_channel_get_volume(f &Tsf, channel int) f32
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_get_volume(channel int) f32 {
 	return C.tsf_channel_get_volume(f, channel)
 }
 
 fn C.tsf_channel_get_pitchwheel(f &Tsf, channel int) int
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_get_pitchwheel(channel int) int {
 	return C.tsf_channel_get_pitchwheel(f, channel)
 }
 
 fn C.tsf_channel_get_pitchrange(f &Tsf, channel int) f32
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_get_pitchrange(channel int) f32 {
 	return C.tsf_channel_get_pitchrange(f, channel)
 }
 
 fn C.tsf_channel_get_tuning(f &Tsf, channel int) f32
-[inline]
+@[inline]
 pub fn (mut f Tsf) channel_get_tuning(channel int) f32 {
 	return C.tsf_channel_get_tuning(f, channel)
 }

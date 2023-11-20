@@ -122,44 +122,44 @@ pub:
 pub type Tml_message = C.tml_message
 
 fn C.tml_load_filename(filename &i8) &C.tml_message
-[inline]
+@[inline]
 pub fn Tml.load_filename(filename string) &Tml_message {
 	return C.tml_load_filename(filename.str)
 }
 
 fn C.tml_load_memory(buffer voidptr, size int) &C.tml_message
-[inline]
+@[inline]
 pub fn Tml.load_memory(buffer voidptr, size int) &Tml_message {
 	return C.tml_load_memory(buffer, size)
 }
 
 fn C.tml_get_info(first_message &C.tml_message, used_channels &int, used_programs &int, total_notes &int, time_first_note &u32, time_length &u32) int
-[inline]
+@[inline]
 pub fn (first_message &Tml_message) get_info(used_channels &int, used_programs &int, total_notes &int, time_first_note &u32, time_length &u32) int {
 	return C.tml_get_info(first_message, used_channels, used_programs, total_notes, time_first_note,
 		time_length)
 }
 
 fn C.tml_get_tempo_value(tempo_message &C.tml_message) int
-[inline]
+@[inline]
 pub fn (tempo_message &Tml_message) get_tempo_value() int {
 	return C.tml_get_tempo_value(tempo_message)
 }
 
 fn C.tml_free(f &C.tml_message)
-[inline]
+@[inline]
 pub fn (f &Tml_message) free() {
 	C.tml_free(f)
 }
 
 fn C.tml_load(stream &C.Tml_stream) &C.tml_message
-[inline]
+@[inline]
 pub fn tml_load(stream &Tml_stream) &Tml_message {
 	return C.tml_load(stream)
 }
 
 fn C.tml_load_tsf_stream(stream &Tsf_stream) &C.tml_message
-[inline]
+@[inline]
 pub fn tml_load_tsf_stream(stream &Tsf_stream) &Tml_message {
 	return C.tml_load_tsf_stream(stream)
 }

@@ -4,7 +4,7 @@ import sdl
 import tsf
 import os
 
-[heap]
+@[heap]
 struct App {
 pub mut:
 	// current playback time

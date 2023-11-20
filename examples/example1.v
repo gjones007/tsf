@@ -26,7 +26,7 @@ const (
 		220, 221, 223, 76, 227, 221, 230, 91, 234, 242, 237, 105, 241, 8, 245, 118, 248, 32, 252]!
 )
 
-[heap]
+@[heap]
 struct App {
 mut:
 	tiny_sound_font &tsf.Tsf
