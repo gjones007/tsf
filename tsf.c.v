@@ -1,10 +1,8 @@
 module tsf
 
-pub const (
-	tsf_render_effect_sample_block = C.TSF_RENDER_EFFECTSAMPLEBLOCK
-	tsf_render_short_buffer_block  = C.TSF_RENDER_SHORTBUFFERBLOCK
-	tsf_fast_release_time          = C.TSF_FASTRELEASETIME
-)
+pub const tsf_render_effect_sample_block = C.TSF_RENDER_EFFECTSAMPLEBLOCK
+pub const tsf_render_short_buffer_block = C.TSF_RENDER_SHORTBUFFERBLOCK
+pub const tsf_fast_release_time = C.TSF_FASTRELEASETIME
 
 pub type FnReadCb = fn (fd voidptr, buf voidptr, count u32) int
 

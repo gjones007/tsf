@@ -1,50 +1,50 @@
 module tsf
 
 pub enum MessageType {
-	note_off = C.TML_NOTE_OFF
-	note_on = C.TML_NOTE_ON
-	key_pressure = C.TML_KEY_PRESSURE
-	control_change = C.TML_CONTROL_CHANGE
-	program_change = C.TML_PROGRAM_CHANGE
+	note_off         = C.TML_NOTE_OFF
+	note_on          = C.TML_NOTE_ON
+	key_pressure     = C.TML_KEY_PRESSURE
+	control_change   = C.TML_CONTROL_CHANGE
+	program_change   = C.TML_PROGRAM_CHANGE
 	channel_pressure = C.TML_CHANNEL_PRESSURE
-	pitch_bend = C.TML_PITCH_BEND
-	set_tempo = C.TML_SET_TEMPO
+	pitch_bend       = C.TML_PITCH_BEND
+	set_tempo        = C.TML_SET_TEMPO
 }
 
 pub enum TMLController {
 	bank_select_msb
 	modulationwheel_msb
 	breath_msb
-	foot_msb = 4
+	foot_msb            = 4
 	portamento_time_msb
 	data_entry_msb
 	volume_msb
 	balance_msb
-	pan_msb = 10
+	pan_msb             = 10
 	expression_msb
 	effects1_msb
 	effects2_msb
-	gpc1_msb = 16
+	gpc1_msb            = 16
 	gpc2_msb
 	gpc3_msb
 	gpc4_msb
-	bank_select_lsb = 32
+	bank_select_lsb     = 32
 	modulationwheel_lsb
 	breath_lsb
-	foot_lsb = 36
+	foot_lsb            = 36
 	portamento_time_lsb
 	data_entry_lsb
 	volume_lsb
 	balance_lsb
-	pan_lsb = 42
+	pan_lsb             = 42
 	expression_lsb
 	effects1_lsb
 	effects2_lsb
-	gpc1_lsb = 48
+	gpc1_lsb            = 48
 	gpc2_lsb
 	gpc3_lsb
 	gpc4_lsb
-	sustain_switch = 64
+	sustain_switch      = 64
 	portamento_switch
 	sostenuto_switch
 	soft_pedal_switch
@@ -65,7 +65,7 @@ pub enum TMLController {
 	gpc7
 	gpc8
 	portamento_ctrl
-	fx_reverb = 91
+	fx_reverb           = 91
 	fx_tremolo
 	fx_chorus
 	fx_celeste_detune
@@ -76,7 +76,7 @@ pub enum TMLController {
 	nrpn_msb
 	rpn_lsb
 	rpn_msb
-	all_sound_off = 120
+	all_sound_off       = 120
 	all_ctrl_off
 	local_control
 	all_notes_off
