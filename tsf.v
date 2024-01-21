@@ -8,8 +8,12 @@ $if macos {
 	#flag -lm
 }
 
-#flag '-DTSF_IMPLEMENTATION'
+$if vorbis ? {
+	#include "@VMODROOT/stb_vorbis.c"
+}
+
+#flag -D TSF_IMPLEMENTATION
 #include "@VMODROOT/TinySoundFont/tsf.h"
 
-#flag '-DTML_IMPLEMENTATION'
+#flag -D TML_IMPLEMENTATION
 #include "@VMODROOT/TinySoundFont/tml.h"

@@ -23,4 +23,13 @@ cd ~/.vmodules/tsf/examples
 v run example1.v
 ```
 
+You can add vorbis support with
+
+```sh
+# fetch latest STB Vorbis
+curl -O https://raw.githubusercontent.com/nothings/stb/master/stb_vorbis.c
+cd ~/.vmodules/tsf/examples
+v -d vorbis run example4.v
+```
+
 Unless otherwise specified, everything in this repo is MIT License.
