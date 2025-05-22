@@ -38,6 +38,8 @@ fn (mut app App) audio_callback(buffer voidptr, frames u32) {
 	app.tiny_sound_font.render_short(buffer, int(frames), false)
 }
 
+type RaylibAudioCallback = fn (buffer voidptr, frames u32)
+
 fn main() {
 	// Load the SoundFont from the memory block
 	mut app := App{
@@ -63,7 +65,8 @@ fn main() {
 
 	// Init raw audio stream (sample rate: 44100, sample size: 16bit-short, channels: 2)
 	app.tiny_sound_font.set_output(.stereo_interleaved, 44100, -10)
-	ray.set_audio_stream_callback(stream, app.audio_callback)
+	audio_closure := RaylibAudioCallback(app.audio_callback)
+	ray.set_audio_stream_callback(stream, audio_closure)
 
 	// Start processing stream buffer (no data loaded currently)
 	ray.play_audio_stream(stream)
@@ -73,6 +76,7 @@ fn main() {
 
 	ray.set_target_fps(30)
 
+	gc_disable() // needed to avoid `Collecting from unknown thread` aborts while the sound is playing
 	for !ray.window_should_close() {
 		if ray.is_key_pressed(ray.key_q) {
 			app.tiny_sound_font.note_on(0, 48, 1) // C2

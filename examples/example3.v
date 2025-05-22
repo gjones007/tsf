@@ -76,7 +76,7 @@ fn main() {
 
 	mut app := App{
 		tiny_sound_font: tsf.Tsf.load_filename(soundfont_file)
-		midi_message: tsf.Tml.load_filename(midi_file)
+		midi_message:    tsf.Tml.load_filename(midi_file)
 	}
 
 	if isnil(app.midi_message) {
@@ -89,10 +89,10 @@ fn main() {
 
 	// Define the desired audio output format we request
 	output_audio_spec := sdl.AudioSpec{
-		freq: 44100
-		format: sdl.audio_f32
+		freq:     44100
+		format:   sdl.audio_f32
 		channels: 2
-		samples: 4096
+		samples:  4096
 		callback: app.audio_callback
 	}
 

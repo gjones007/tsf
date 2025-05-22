@@ -26,7 +26,7 @@ fn main() {
 	mut app := App{
 		tiny_sound_font: tsf.Tsf.load_filename(os.join_path('..', 'TinySoundFont', 'examples',
 			'florestan-subset.sf2'))
-		mutex: sdl.create_mutex()
+		mutex:           sdl.create_mutex()
 	}
 	if isnil(app.tiny_sound_font) {
 		panic('Could not load soundfont')
@@ -34,10 +34,10 @@ fn main() {
 
 	// Define the desired audio output format we request
 	output_audio_spec := sdl.AudioSpec{
-		freq: 44100
-		format: sdl.audio_f32
+		freq:     44100
+		format:   sdl.audio_f32
 		channels: 2
-		samples: 4096
+		samples:  4096
 		callback: app.audio_callback
 	}
 
