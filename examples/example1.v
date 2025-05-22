@@ -50,10 +50,10 @@ fn main() {
 
 	// Define the desired audio output format we request
 	output_audio_spec := sdl.AudioSpec{
-		freq: 44100
-		format: sdl.audio_s16
+		freq:     44100
+		format:   sdl.audio_s16
 		channels: 2
-		samples: 4096
+		samples:  4096
 		callback: app.audio_callback
 	}
 
