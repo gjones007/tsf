@@ -1,6 +1,6 @@
 module main
 
-import irishgreencitrus.raylibv as ray
+import raylib as ray
 import tsf
 
 const minimal_soundfont = [u8(`R`), `I`, `F`, `F`, 220, 1, 0, 0, `s`, `f`, `b`, `k`, `L`, `I`,
@@ -49,14 +49,8 @@ fn main() {
 		panic('Could not load soundfont')
 	}
 
-	// mut file := os.open_file('minimal_soundfont.sf2', 'w+', 0o666) or { panic(err) }
-	// wrote := unsafe { file.write_ptr(&minimal_soundfont, minimal_soundfont.len) }
-	// println('write_bytes: ${wrote} [./minimal_soundfont.sf2]')
-	// file.flush()
-	// file.close()
-
-	ray.set_trace_log_level(ray.log_error)
-	ray.init_window(screen_width, screen_height, c'raylib and TinySoundFont in V')
+	ray.vset_trace_log_level(.log_error)
+	ray.init_window(screen_width, screen_height, 'raylib and TinySoundFont in V')
 
 	// Initialize the audio system
 	ray.init_audio_device()
@@ -72,23 +66,23 @@ fn main() {
 	ray.play_audio_stream(stream)
 
 	// this is the default, but this is how you would change it
-	ray.set_exit_key(ray.key_escape)
+	ray.vset_exit_key(.key_escape)
 
 	ray.set_target_fps(30)
 
 	gc_disable() // needed to avoid `Collecting from unknown thread` aborts while the sound is playing
 	for !ray.window_should_close() {
-		if ray.is_key_pressed(ray.key_q) {
+		if ray.vis_key_pressed(.key_q) {
 			app.tiny_sound_font.note_on(0, 48, 1) // C2
 			app.tiny_sound_font.note_on(0, 52, 1) // E2
 		}
-		if ray.is_key_released(ray.key_q) {
+		if ray.vis_key_released(.key_q) {
 			app.tiny_sound_font.note_off(0, 48)
 			app.tiny_sound_font.note_off(0, 52)
 		}
 		ray.begin_drawing()
 		ray.clear_background(ray.raywhite)
-		ray.draw_text(c'Press the q key to play sounds', 10, 10, 20, ray.darkgray)
+		ray.draw_text('Press the q key to play sounds', 10, 10, 20, ray.darkgray)
 		ray.end_drawing()
 	}
 	ray.unload_audio_stream(stream)

@@ -9,12 +9,15 @@ struct App {
 mut:
 	tiny_sound_font &tsf.Tsf
 	mutex           &sdl.Mutex
+	stream          &sdl.AudioStream = unsafe { nil }
+	buffer          voidptr
 }
 
-fn (mut app App) audio_callback(data voidptr, stream &u8, len int) {
-	sample_count := (len / int(2 * sizeof(f32)))
+fn (mut app App) audio_callback(stream &sdl.AudioStream, additional_amount int, total_amount int) {
+	sample_count := int(total_amount / int(2 * sizeof(f32)))
 	sdl.lock_mutex(app.mutex)
-	app.tiny_sound_font.render_float(stream, sample_count, false)
+	app.tiny_sound_font.render_float(app.buffer, sample_count, false)
+	sdl.put_audio_stream_data(stream, app.buffer, total_amount)
 	sdl.unlock_mutex(app.mutex)
 }
 
@@ -24,8 +27,8 @@ fn main() {
 	// Load the SoundFont from a file
 	// Create the mutex
 	mut app := App{
-		tiny_sound_font: tsf.Tsf.load_filename(os.join_path('..', 'TinySoundFont', 'examples',
-			'florestan-subset.sf2'))
+		tiny_sound_font: tsf.Tsf.load_filename(os.join_path('..', '..', 'TinySoundFont',
+			'examples', 'florestan-subset.sf2'))
 		mutex:           sdl.create_mutex()
 	}
 	if isnil(app.tiny_sound_font) {
@@ -35,14 +38,12 @@ fn main() {
 	// Define the desired audio output format we request
 	output_audio_spec := sdl.AudioSpec{
 		freq:     44100
-		format:   sdl.audio_f32
+		format:   sdl.AudioFormat._f32_1
 		channels: 2
-		samples:  4096
-		callback: app.audio_callback
 	}
 
 	// Initialize the audio system
-	if sdl.init(sdl.init_audio) < 0 {
+	if !sdl.init(sdl.init_audio) {
 		panic('Could not initialize audio hardware or driver')
 	}
 
@@ -50,13 +51,16 @@ fn main() {
 	app.tiny_sound_font.set_output(.stereo_interleaved, output_audio_spec.freq, 0)
 
 	// Request the desired audio output format
-	if sdl.open_audio(&output_audio_spec, sdl.null) < 0 {
+	app.stream = sdl.open_audio_device_stream(sdl.audio_device_default_playback, &output_audio_spec,
+		app.audio_callback, &app)
+
+	if app.stream == sdl.null {
 		panic('Could not open the audio hardware or the desired audio output format')
 	}
 
-	// Start the actual audio playback here
-	// The audio thread will begin to call our AudioCallback function
-	sdl.pause_audio(0)
+	app.buffer = unsafe { malloc(4096) }
+
+	sdl.resume_audio_device(sdl.get_audio_stream_device(app.stream))
 
 	// Loop through all the presets in the loaded SoundFont
 	for i in 0 .. app.tiny_sound_font.get_presetcount() {

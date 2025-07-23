@@ -13,14 +13,16 @@ pub mut:
 	tiny_sound_font &tsf.Tsf
 	// next midi_message to be played
 	midi_message &tsf.Tml_message
+	stream       &sdl.AudioStream = unsafe { nil }
+	buffer       [8192]f32
 }
 
 // Callback function called by the audio thread
-fn (mut app App) audio_callback(data voidptr, stream &u8, len int) {
+// fn (mut app App) audio_callback(data voidptr, stream &u8, len int) {
+fn (mut app App) audio_callback(stream &sdl.AudioStream, additional_amount int, total_amount int) {
 	// Number of samples to process
 	mut sample_block := int(tsf.tsf_render_effect_sample_block)
-	mut sample_count := int(len / int(2 * sizeof(f32)))
-	mut off := int(0)
+	mut sample_count := int(total_amount / int(2 * sizeof(f32)))
 
 	for sample_count != 0 {
 		// We progress the MIDI playback and then process TSF_RENDER_EFFECT sample_block samples at once
@@ -61,18 +63,18 @@ fn (mut app App) audio_callback(data voidptr, stream &u8, len int) {
 			}
 			app.midi_message = app.midi_message.next
 		}
-		unsafe { app.tiny_sound_font.render_float(&stream[off], sample_block, false) }
+		unsafe { app.tiny_sound_font.render_float(&app.buffer[0], sample_block, false) }
+		sdl.put_audio_stream_data(stream, &app.buffer, sample_block * int(2 * sizeof(f32)))
 
 		sample_count -= sample_block
-		off += sample_block * int(2 * sizeof(f32))
 	}
 }
 
 fn main() {
 	// Load the SoundFont from a file
 	// Set up the application midi_message pointer to the first MIDI message
-	soundfont_file := os.join_path('..', 'florestan-subset.sfo')
-	midi_file := os.join_path('..', 'TinySoundFont', 'examples', 'venture.mid')
+	soundfont_file := os.join_path('..', '..', 'florestan-subset.sfo')
+	midi_file := os.join_path('..', '..', 'TinySoundFont', 'examples', 'venture.mid')
 
 	mut app := App{
 		tiny_sound_font: tsf.Tsf.load_filename(soundfont_file)
@@ -90,14 +92,12 @@ fn main() {
 	// Define the desired audio output format we request
 	output_audio_spec := sdl.AudioSpec{
 		freq:     44100
-		format:   sdl.audio_f32
+		format:   sdl.AudioFormat._f32_1
 		channels: 2
-		samples:  4096
-		callback: app.audio_callback
 	}
 
 	// Initialize the audio system
-	if sdl.init(sdl.init_audio) < 0 {
+	if !sdl.init(sdl.init_audio) {
 		panic('Could not initialize audio hardware or driver')
 	}
 
@@ -107,14 +107,12 @@ fn main() {
 	// Set the SoundFont rendering output mode
 	app.tiny_sound_font.set_output(.stereo_interleaved, output_audio_spec.freq, 0)
 
-	// Request the desired audio output format
-	if sdl.open_audio(&output_audio_spec, sdl.null) < 0 {
-		panic('Could not open the audio hardware or the desired audio output format')
-	}
+	app.stream = sdl.open_audio_device_stream(sdl.audio_device_default_playback, &output_audio_spec,
+		app.audio_callback, &app)
 
 	// Start the actual audio playback here
 	// The audio thread will begin to call our AudioCallback function
-	sdl.pause_audio(0)
+	sdl.resume_audio_device(sdl.get_audio_stream_device(app.stream))
 
 	for !isnil(app.midi_message) {
 		sdl.delay(100)
